@@ -16,8 +16,8 @@
             --text-muted: #e2e8f0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: transparent; color: var(--text-main); min-height: 100vh; padding: 24px 16px; overflow-x: hidden; }
         html { background-color: var(--bg-fallback); }
+        body { background-color: transparent; color: var(--text-main); min-height: 100vh; padding: 24px 16px; overflow-x: hidden; }
         #enter-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 6, 22, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.7s ease, visibility 0.7s ease; user-select: none; }
         #enter-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .enter-text { font-size: 20px; font-weight: 700; letter-spacing: 3px; color: var(--accent-pink); text-shadow: 0 0 18px rgba(244, 169, 200, 0.75); animation: pulseGlow 2s infinite ease-in-out; }
@@ -79,7 +79,7 @@
     </style>
 </head>
 <body>
-    <div id="enter-overlay" onclick="enterSite()">
+    <div id="enter-overlay" onclick="this.style.display='none'; enterSite();">
         <div class="enter-text">[ click to enter... ]</div>
         <div class="enter-sub">TUNA • SALTER YUKATA PORTFOLIO</div>
     </div>
@@ -92,7 +92,7 @@
         <header class="glass navbar">
             <div class="profile-mini">
                 <div class="avatar-circle">
-                    <img src="https://api.lanyard.rest/1246070374505119766.png" onerror="this.style.display='none';this.parentElement.innerHTML='<span>T</span>';" alt="Avatar">
+                    <img src="https://lanyard.rest" onerror="this.style.display='none';this.parentElement.innerHTML='<span>T</span>';" alt="Avatar">
                 </div>
                 <div>
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -191,9 +191,3 @@
                 <div class="hero-actions"><span class="badge-role" style="font-size: 13px; padding: 8px 16px;">⚔️ Excalibur Morgan</span></div>
             </div>
             <div class="cards-slider">
-                <div class="glass project-card"><div><span class="card-status">Class</span><div class="card-icon">🛡️</div><h3>Saber Alter</h3></div><p style="font-size: 13px; color: var(--text-muted);">Corrupted by the Grail's curse, wielding overwhelming mana and absolute resolve.</p><div class="role-tags"><span class="role-pill">Lawful Evil</span><span class="role-pill">Dragon Core</span></div></div>
-                <div class="glass project-card"><div><span class="card-status">Outfit Theme</span><div class="card-icon">👘</div><h3>Yukata Edition</h3></div><p style="font-size: 13px; color: var(--text-muted);">Dark indigo and crimson Yukata under a night sky of drifting sakura petals—the inspiration for this site.</p><div class="role-tags"><span class="role-pill">Sakura Night</span><span class="role-pill">Aesthetic</span></div></div>
-                <div class="glass project-card"><div><span class="card-status">Trivia</span><div class="card-icon">🍔</div><h3>Junk Food Lover</h3></div><p style="font-size: 13px; color: var(--text-muted);">Contrary to her cold exterior, Salter has an undeniable weakness for fast food and hamburgers.</p><div class="role-tags"><span class="role-pill">Fate/stay night</span><span class="role-pill">Hollow Ataraxia</span></div></div>
-            </div>
-        </section>
-
