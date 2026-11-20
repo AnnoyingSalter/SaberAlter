@@ -16,350 +16,240 @@
             --text-main: #f8fafc;
             --text-muted: #cbd5e1;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-fallback); color: var(--text-main); min-height: 100vh; padding: 24px 16px; overflow-x: hidden; }
+        #enter-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 6, 22, 0.9); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.7s ease, visibility 0.7s ease; user-select: none; }
+        #enter-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .enter-text { font-size: 20px; font-weight: 700; letter-spacing: 3px; color: var(--accent-pink); text-shadow: 0 0 18px rgba(244, 169, 200, 0.75); animation: pulseGlow 2s infinite ease-in-out; }
+        .enter-sub { margin-top: 10px; font-size: 12px; color: var(--text-muted); letter-spacing: 1.5px; opacity: 0.75; }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.55; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.03); } }
+        #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -3; filter: brightness(0.75); }
+        .bg-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at center, rgba(18, 11, 36, 0.22), rgba(10, 6, 22, 0.68)); z-index: -2; pointer-events: none; }
+        #sakura-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; }
+        .container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 1; }
+        .glass { background: var(--glass-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-radius: 18px; box-shadow: 0 10px 30px rgba(8, 4, 20, 0.5); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; flex-wrap: wrap; gap: 14px; }
+        .profile-mini { display: flex; align-items: center; gap: 12px; }
+        .avatar-circle { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-purple), var(--accent-crimson)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; border: 2px solid var(--accent-pink); overflow: hidden; }
+        .badge-role { background: rgba(214, 56, 88, 0.25); border: 1px solid rgba(214, 56, 88, 0.5); color: var(--accent-pink); font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.5px; }
+        .nav-tabs { display: flex; align-items: center; background: rgba(14, 9, 28, 0.72); padding: 5px; border-radius: 999px; border: 1px solid rgba(244, 169, 200, 0.25); gap: 4px; flex-wrap: wrap; }
+        .tab-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.25s; white-space: nowrap; }
+        .tab-btn:hover { color: var(--text-main); }
+        .tab-btn.active { background: rgba(244, 169, 200, 0.16); border-color: rgba(244, 169, 200, 0.45); color: var(--accent-pink); box-shadow: 0 2px 12px rgba(214, 56, 88, 0.2); }
+        .music-controls { display: flex; align-items: center; gap: 6px; }
+        .music-player { display: flex; align-items: center; gap: 10px; background: rgba(14, 9, 28, 0.8); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent-pink); transition: 0.2s; }
+        .music-player:hover { border-color: var(--accent-crimson); color: #fff; }
+        .music-divider { width: 1px; height: 16px; background: rgba(255, 255, 255, 0.18); }
+        .tab-content { display: none; flex-direction: column; gap: 22px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr; } }
+        .stat-card { padding: 22px; text-align: center; display: flex; flex-direction: column; gap: 6px; transition: 0.25s; }
+        .stat-card:hover { transform: translateY(-3px); border-color: var(--accent-pink); }
+        .stat-number { font-size: 26px; font-weight: 800; background: linear-gradient(90deg, #ffffff, var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-card.crimson .stat-number { background: linear-gradient(90deg, #ff9ebb, var(--accent-crimson)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .hero-banner { padding: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; position: relative; overflow: hidden; }
+        .hero-text { max-width: 650px; }
+        .hero-tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-pink); margin-bottom: 10px; }
+        .hero-text h1 { font-size: 28px; font-weight: 800; margin-bottom: 12px; line-height: 1.25; }
+        .hero-text p { color: var(--text-muted); font-size: 14px; line-height: 1.65; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-crimson), #9e223b); color: #fff; text-decoration: none; padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(214, 56, 88, 0.4); }
+        .btn-primary:hover { filter: brightness(1.12); transform: translateY(-2px); }
+        .btn-secondary { background: rgba(14, 9, 28, 0.75); color: var(--text-main); text-decoration: none; padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s; }
+        .btn-secondary:hover { border-color: var(--accent-pink); background: rgba(157, 101, 201, 0.25); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .section-header h2 { font-size: 18px; font-weight: 700; }
+        .section-header p { font-size: 13px; color: var(--text-muted); }
+        .cards-slider { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .project-card { padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 185px; transition: 0.25s; }
+        .project-card:hover { transform: translateY(-4px); border-color: var(--accent-pink); }
+        .project-card.music-card:hover { border-color: var(--accent-crimson); }
+        .card-status { font-size: 11px; font-weight: 600; color: var(--accent-pink); background: rgba(255, 255, 255, 0.08); padding: 4px 10px; border-radius: 8px; width: fit-content; }
+        .card-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(157, 101, 201, 0.25); border: 1px solid rgba(216, 180, 226, 0.35); display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 10px 0; }
+        .music-card .card-icon { background: rgba(214, 56, 88, 0.25); border-color: rgba(214, 56, 88, 0.45); }
+        .project-card h3 { font-size: 16px; font-weight: 700; line-height: 1.35; }
+        .role-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .role-pill { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: rgba(14, 9, 28, 0.7); border: 1px solid var(--glass-border); color: var(--text-muted); }
+        .discord-widget { display: flex; justify-content: center; align-items: center; padding: 16px; }
+        .discord-widget img { max-width: 100%; border-radius: 12px; }
+    </style>
+</head>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+    <body>
+    <div id="enter-overlay" onclick="enterSite()">
+        <div class="enter-text">[ click to enter... ]</div>
+        <div class="enter-sub">TUNA • SALTER YUKATA PORTFOLIO</div>
+    </div>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="bg-live.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+    <canvas id="sakura-canvas"></canvas>
+    <div class="container">
+        <header class="glass navbar">
+            <div class="profile-mini">
+                <div class="avatar-circle"><span>T</span></div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <strong style="font-size: 16px;">Tuna</strong>
+                        <span class="badge-role">SALTER</span>
+                    </div>
+                    <span style="font-size: 12px; color: var(--text-muted);">@AnnoyingSalter</span>
+                </div>
+            </div>
+            <nav class="nav-tabs">
+                <button class="tab-btn active" onclick="switchTab('home', 0)">Home</button>
+                <button class="tab-btn" onclick="switchTab('musics', 1)">Musics</button>
+                <button class="tab-btn" onclick="switchTab('movies', 2)">Movies/Films</button>
+                <button class="tab-btn" onclick="switchTab('salter', 3)">Artoria Pendragon Alter</button>
+                <button class="tab-btn" onclick="switchTab('about', 4)">About</button>
+            </nav>
+            <div class="music-controls">
+                <button class="music-player" onclick="toggleAudio()">
+                    <span id="musicLabel">The Glory</span>
+                    <span class="music-divider"></span>
+                    <span id="musicIcon">🔇</span>
+                </button>
+                <button class="music-player" onclick="nextTrack()" title="Đổi bài hát">⏭</button>
+            </div>
+            <audio id="bgAudio" loop></audio>
+        </header>
+
+        <main id="home" class="tab-content active">
+            <section class="stats-grid">
+                <div class="glass stat-card"><div class="stat-number">Salter</div><div class="stat-label">Artoria Pendragon Alter Fan</div></div>
+                <div class="glass stat-card"><div class="stat-number">4 Films</div><div class="stat-label">All-Time Favorite Cinema</div></div>
+                <div class="glass stat-card crimson"><div class="stat-number">100%</div><div class="stat-label">Grinding for Dream University</div></div>
+            </section>
+            <section class="glass hero-banner">
+                <div class="hero-text">
+                    <span class="hero-tag">✦ ARTORIA PENDRAGON ALTER • PORTFOLIO</span>
+                    <h1>Hi, I'm Bui Anh Tuan ("Tuna")</h1>
+                    <p>Học sinh trung học đam mê điện ảnh kinh điển, giai điệu piano sâu lắng và là fan cứng của Artoria Pendragon Alter. Đang nỗ lực học tập hết mình như thể ngày mai là tận thế để chinh phục ngôi trường đại học mơ ước.</p>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="switchTab('salter', 3)">SALTER SHRINE</button>
+                    <a href="https://discord.com" target="_blank" class="btn-secondary">DM ON DISCORD</a>
+                </div>
+            </section>
+            <section>
+                <div class="section-header"><div><h2>✨ Quick Explore</h2><p>Chọn từng mục trên thanh menu để xem chi tiết sở thích của mình</p></div></div>
+                <div class="cards-slider">
+                    <div class="glass project-card" style="cursor: pointer;" onclick="switchTab('musics', 1)">
+                        <div><span class="card-status">Playlist</span><div class="card-icon">🎼</div><h3>Musics</h3></div>
+                        <p style="font-size: 13px; color: var(--text-muted);">Merry Christmas Mr. Lawrence & Kiss the Rain.</p>
+                        <div class="role-tags"><span class="role-pill">Xem & Nghe nhạc ↗</span></div>
+                    </div>
+                    <div class="glass project-card" style="cursor: pointer;" onclick="switchTab('movies', 2)">
+                        <div><span class="card-status">Watchlist</span><div class="card-icon">🎬</div><h3>Movies/Films</h3></div>
+                        <p style="font-size: 13px; color: var(--text-muted);">4 bộ phim kinh điển truyền cảm hứng nhất.</p>
+                        <div class="role-tags"><span class="role-pill">Xem danh sách phim ↗</span></div>
+                    </div>
+                    <div class="glass project-card" style="cursor: pointer;" onclick="switchTab('salter', 3)">
+                        <div><span class="card-status">Favorite Character</span><div class="card-icon">⚔️</div><h3>Artoria Pendragon Alter</h3></div>
+                        <p style="font-size: 13px; color: var(--text-muted);">Góc dành riêng cho vị vua bóng đêm của Fate.</p>
+                        <div class="role-tags"><span class="role-pill">Khám phá ngay ↗</span></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section id="musics" class="tab-content">
+            <div class="glass hero-banner"><div class="hero-text"><span class="hero-tag">✦ FAVORITE SOUNDTRACKS & PIANO</span><h1>Musics</h1><p>Những bản nhạc không lời đầy cảm xúc. Bấm trực tiếp vào thẻ bài hát để phát nhạc.</p></div></div>
+            <div class="cards-slider">
+                <div class="glass project-card music-card" style="cursor: pointer;" onclick="playSpecificTrack(0)">
+                    <div><span class="card-status">Ryuichi Sakamoto • 1983</span><div class="card-icon">❄️</div><h3>Merry Christmas Mr. Lawrence</h3></div>
+                    <p style="font-size: 13px; color: var(--text-muted);">Giai điệu kinh điển đầy ám ảnh và giàu chiều sâu cảm xúc từ bộ phim cùng tên.</p>
+                    <div class="role-tags"><span class="role-pill">▶ Bấm để phát ngay</span><span class="role-pill">Film Soundtrack</span></div>
+                </div>
+                <div class="glass project-card music-card" style="cursor: pointer;" onclick="playSpecificTrack(1)">
+                    <div><span class="card-status">Yiruma • 2003</span><div class="card-icon">🌧️</div><h3>Kiss the Rain</h3></div>
+                    <p style="font-size: 13px; color: var(--text-muted);">Bản piano nhẹ nhàng, sâu lắng như những giọt mưa rơi đêm khuya.</p>
+                    <div class="role-tags"><span class="role-pill">▶ Bấm để phát ngay</span><span class="role-pill">Piano Solo</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="movies" class="tab-content">
+            <div class="glass hero-banner"><div class="hero-text"><span class="hero-tag">✦ ALL-TIME FAVORITE CINEMA</span><h1>Movies / Films</h1><p>4 kiệt tác điện ảnh để lại ấn tượng sâu sắc nhất.</p></div></div>
+            <div class="cards-slider">
+                <div class="glass project-card"><div><span class="card-status">1983 • War / Drama</span><div class="card-icon">❄️</div><h3>Merry Christmas Mr. Lawrence</h3></div><p style="font-size: 13px; color: var(--text-muted);">Câu chuyện sâu sắc về sự xung đột văn hóa và lòng trắc ẩn.</p><div class="role-tags"><span class="role-pill">Nagisa Ōshima</span><span class="role-pill">Ryuichi Sakamoto</span></div></div>
+                <div class="glass project-card"><div><span class="card-status">1997 • Comedy / Drama</span><div class="card-icon">🌻</div><h3>Life Is Beautiful</h3></div><p style="font-size: 13px; color: var(--text-muted);">Tình phụ tử vĩ đại biến hiện thực tàn khốc thành trò chơi kỳ diệu.</p><div class="role-tags"><span class="role-pill">Roberto Benigni</span><span class="role-pill">Oscar Winner</span></div></div>
+                <div class="glass project-card"><div><span class="card-status">2002 • Biography / Drama</span><div class="card-icon">🎹</div><h3>The Pianist</h3></div><p style="font-size: 13px; color: var(--text-muted);">Hành trình sinh tồn phi thường của nghệ sĩ dương cầm Władysław Szpilman.</p><div class="role-tags"><span class="role-pill">Roman Polanski</span><span class="role-pill">Adrien Brody</span></div></div>
+                <div class="glass project-card"><div><span class="card-status">2014 • Sci-Fi / Adventure</span><div class="card-icon">🪐</div><h3>Interstellar</h3></div><p style="font-size: 13px; color: var(--text-muted);">Chuyến du hành vượt không gian và thời gian với thông điệp tình yêu vĩnh cửu.</p><div class="role-tags"><span class="role-pill">Christopher Nolan</span><span class="role-pill">Hans Zimmer</span></div></div>
+            </div>
+        </section>
+
+        <section id="salter" class="tab-content">
+            <div class="glass hero-banner">
+                <div class="hero-text"><span class="hero-tag">✦ FATE SERIES • KING OF KNIGHTS (ALTER)</span><h1>Artoria Pendragon Alter</h1><p>Phiên bản hắc hóa đầy uy quyền, lạnh lùng nhưng mang nét quyến rũ đặc biệt của Vua Hiệp Sĩ Artoria Pendragon.</p></div>
+                <div class="hero-actions"><span class="badge-role" style="font-size: 13px; padding: 8px 16px;">⚔️ Excalibur Morgan</span></div>
+            </div>
+            <div class="cards-slider">
+                <div class="glass project-card"><div><span class="card-status">Class</span><div class="card-icon">🛡️</div><h3>Saber Alter</h3></div><p style="font-size: 13px; color: var(--text-muted);">Mang sức mạnh ma lực khổng lồ và sự quyết đoán tuyệt đối.</p><div class="role-tags"><span class="role-pill">Lawful Evil</span><span class="role-pill">Dragon Core</span></div></div>
+                                <div class="glass project-card"><div><span class="card-status">Outfit Theme</span><div class="card-icon">👘</div><h3>Yukata Edition</h3></div><p style="font-size: 13px; color: var(--text-muted);">Trang phục Yukata sắc tím than - đỏ thẫm dưới màn đêm hoa anh đào rơi.</p><div class="role-tags"><span class="role-pill">Sakura Night</span><span class="role-pill">Aesthetic</span></div></div>
+                <div class="glass project-card"><div><span class="card-status">Trivia</span><div class="card-icon">🍔</div><h3>Junk Food Lover</h3></div><p style="font-size: 13px; color: var(--text-muted);">Trái ngược với vẻ ngoài lạnh lùng, Salter cực kỳ yêu thích đồ ăn nhanh.</p><div class="role-tags"><span class="role-pill">Fate/stay night</span><span class="role-pill">Hollow Ataraxia</span></div></div>
+            </div>
+        </section>
+
+        <section id="about" class="tab-content">
+            <div class="glass discord-widget"><img src="https://cnrad.dev" alt="Discord Status"></div>
+            <div class="glass hero-banner">
+                <div class="hero-text" style="max-width: 100%;">
+                    <span class="hero-tag">✦ ABOUT ME</span><h1>Bùi Anh Tuấn (Tuna)</h1>
+                    <p style="margin-bottom: 16px;">Xin chào! Mình là Bùi Anh Tuấn, hay mọi người thường gọi là <strong>"Tuna"</strong>. Mình rất thích nghe nhạc, xem phim và đọc sách/truyện; đặc biệt mình là fan hâm mộ cuồng nhiệt của nhân vật <strong>Artoria/Atria Pendragon Alter</strong>. Hiện tại mình đang nỗ lực học tập hết mình như thể ngày mai là tận thế để đỗ vào ngôi trường đại học mơ ước.</p>
+                    <div class="hero-actions"><a href="https://discord.com" target="_blank" class="btn-primary">Liên hệ Discord</a><a href="https://github.com" target="_blank" class="btn-secondary">Trang GitHub</a></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const playlist = [{ title: "Merry Christmas Mr. Lawrence", src: "merry-christmas.mp3" }, { title: "Kiss the Rain", src: "kiss-the-rain.mp3" }];
+        let currentTrack = 0, playing = false;
+        const audio = document.getElementById('bgAudio'), musicIcon = document.getElementById('musicIcon'), bgVideo = document.getElementById('bg-video');
+        audio.src = playlist[currentTrack].src;
+        function enterSite() {
+            document.getElementById('enter-overlay').classList.add('hidden');
+            if (bgVideo) bgVideo.play().catch(() => {});
+            audio.play().then(() => { playing = true; musicIcon.textContent = '🔊'; }).catch(() => {});
         }
-
-        body {
-            background-color: var(--bg-fallback);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 24px 16px;
-            overflow-x: hidden;
+        function switchTab(tabId, tabIndex) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if (btns[tabIndex]) btns[tabIndex].classList.add('active');
         }
-
-        #enter-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(10, 6, 22, 0.9);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.7s ease, visibility 0.7s ease;
-            user-select: none;
+        function toggleAudio() {
+            if (playing) { audio.pause(); musicIcon.textContent = '🔇'; }
+            else { audio.play().catch(() => {}); musicIcon.textContent = '🔊'; }
+            playing = !playing;
         }
-
-        #enter-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playSpecificTrack(currentTrack); }
+        function playSpecificTrack(index) {
+            currentTrack = index; audio.src = playlist[currentTrack].src;
+            audio.play().then(() => { playing = true; musicIcon.textContent = '🔊'; }).catch(() => { playing = false; musicIcon.textContent = '🔇'; });
         }
-
-        .enter-text {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--accent-pink);
-            text-shadow: 0 0 18px rgba(244, 169, 200, 0.75);
-            animation: pulseGlow 2s infinite ease-in-out;
+        const canvas = document.getElementById('sakura-canvas'), ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        const petals = Array.from({ length: 45 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 6 + 5, speedY: Math.random() * 1.1 + 0.6, speedX: Math.random() * 1.2 - 0.8, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.04, flip: Math.random() * Math.PI, flipSpeed: Math.random() * 0.03 + 0.01, color: Math.random() > 0.35 ? 'rgba(255, 228, 240, 0.85)' : 'rgba(244, 169, 200, 0.85)' }));
+        function animateSakura() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(p => {
+                p.y += p.speedY; p.x += p.speedX + Math.sin(p.angle) * 0.4; p.angle += p.spin; p.flip += p.flipSpeed;
+                if (p.y > canvas.height + 20 || p.x < -30 || p.x > canvas.width + 30) { p.x = Math.random() * canvas.width; p.y = -20; }
+                ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle); ctx.scale(1, Math.abs(Math.cos(p.flip)) * 0.7 + 0.3);
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size, p.size / 3, 0, p.size); ctx.bezierCurveTo(-p.size, p.size / 3, -p.size / 2, -p.size / 2, 0, 0);
+                ctx.fillStyle = p.color; ctx.shadowColor = 'rgba(255, 192, 203, 0.5)'; ctx.shadowBlur = 6; ctx.fill(); ctx.restore();
+            });
+            requestAnimationFrame(animateSakura);
         }
-
-        .enter-sub {
-            margin-top: 10px;
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 1.5px;
-            opacity: 0.75;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.55; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.03); }
-        }
-
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -3;
-            filter: brightness(0.75);
-        }
-
-        .bg-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at center, rgba(18, 11, 36, 0.22), rgba(10, 6, 22, 0.68));
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        #sakura-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(8, 4, 20, 0.5);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-
-        .profile-mini {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .avatar-circle {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-crimson));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            border: 2px solid var(--accent-pink);
-            overflow: hidden;
-        }
-
-        .badge-role {
-            background: rgba(214, 56, 88, 0.25);
-            border: 1px solid rgba(214, 56, 88, 0.5);
-            color: var(--accent-pink);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            align-items: center;
-            background: rgba(14, 9, 28, 0.72);
-            padding: 5px;
-            border-radius: 999px;
-            border: 1px solid rgba(244, 169, 200, 0.25);
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.25s;
-            white-space: nowrap;
-        }
-
-        .tab-btn:hover {
-            color: var(--text-main);
-        }
-
-        .tab-btn.active {
-            background: rgba(244, 169, 200, 0.16);
-            border-color: rgba(244, 169, 200, 0.45);
-            color: var(--accent-pink);
-            box-shadow: 0 2px 12px rgba(214, 56, 88, 0.2);
-        }
-
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .music-player {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(14, 9, 28, 0.8);
-            border: 1px solid var(--glass-border);
-            padding: 8px 16px;
-            border-radius: 999px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent-pink);
-            transition: 0.2s;
-        }
-
-        .music-player:hover {
-            border-color: var(--accent-crimson);
-            color: #fff;
-        }
-
-        .music-divider {
-            width: 1px;
-            height: 16px;
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        .tab-content {
-            display: none;
-            flex-direction: column;
-            gap: 22px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: 1fr; }
-        }
-
-        .stat-card {
-            padding: 22px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            transition: 0.25s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-pink);
-        }
-
-        .stat-number {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(90deg, #ffffff, var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-card.crimson .stat-number {
-            background: linear-gradient(90deg, #ff9ebb, var(--accent-crimson));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .hero-banner {
-            padding: 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-text {
-            max-width: 650px;
-        }
-
-        .hero-tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-pink);
-            margin-bottom: 10px;
-        }
-
-        .hero-text h1 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            line-height: 1.25;
-        }
-
-        .hero-text p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.65;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-crimson), #9e223b);
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(214, 56, 88, 0.4);
-        }
-
-        .btn-primary:hover {
-            filter: brightness(1.12);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(14, 9, 28, 0.75);
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
+        animateSakura();
+    </script>
+</body>
+</html>
